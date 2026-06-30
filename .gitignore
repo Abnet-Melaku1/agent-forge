@@ -1,6 +1,8 @@
-# --- Agent / editor tooling ---
+# --- Agent / editor tooling (never committed) ---
 .claude/
+CLAUDE.md
 .cursor/
+.cursorrules
 .vscode/
 .idea/
 
