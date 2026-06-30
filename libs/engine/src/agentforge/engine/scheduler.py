@@ -15,6 +15,10 @@ class GraphCycleError(GraphError):
     """The graph contains a cycle and is therefore not a DAG."""
 
 
+class NodeAlreadyCompletedError(GraphError):
+    """A node was marked complete more than once in the same run."""
+
+
 def topological_order(graph: Graph) -> list[str]:
     """Return node ids in a valid execution order (Kahn's algorithm).
 
@@ -51,3 +55,51 @@ def topological_order(graph: Graph) -> list[str]:
         raise GraphCycleError("graph contains a cycle; expected a DAG")
 
     return order
+
+
+class RunScheduler:
+    """Tracks execution readiness for a single run as nodes complete.
+
+    Construction validates the graph is a DAG. `start` yields the initial
+    runnable nodes; `mark_complete` propagates completion and yields any
+    nodes that become runnable as a result.
+    """
+
+    def __init__(self, graph: Graph) -> None:
+        topological_order(graph)  # reject cycles and unknown-node edges up front
+
+        self._successors: dict[str, list[str]] = {node.id: [] for node in graph.nodes}
+        self._pending_upstream: dict[str, int] = {node.id: 0 for node in graph.nodes}
+        for edge in graph.edges:
+            self._successors[edge.source].append(edge.target)
+            self._pending_upstream[edge.target] += 1
+
+        self._completed: set[str] = set()
+
+    def start(self) -> list[str]:
+        """Return the in-degree-0 nodes that can run immediately."""
+        return sorted(
+            node_id for node_id, pending in self._pending_upstream.items() if pending == 0
+        )
+
+    def mark_complete(self, node_id: str) -> list[str]:
+        """Record a node as finished and return the nodes it unblocks."""
+        if node_id not in self._pending_upstream:
+            raise UnknownNodeError(f"node {node_id!r} is not in the graph")
+        if node_id in self._completed:
+            raise NodeAlreadyCompletedError(f"node {node_id!r} was already completed")
+
+        self._completed.add(node_id)
+
+        newly_ready: list[str] = []
+        for successor in self._successors[node_id]:
+            self._pending_upstream[successor] -= 1
+            if self._pending_upstream[successor] == 0:
+                newly_ready.append(successor)
+
+        return sorted(newly_ready)
+
+    @property
+    def is_done(self) -> bool:
+        """True once every node in the graph has completed."""
+        return len(self._completed) == len(self._pending_upstream)
