@@ -1,10 +1,13 @@
+from collections.abc import AsyncIterator
+
 import pytest
+from agentforge.engine.context import NodeContext
 from agentforge.engine.registry import (
     DuplicateNodeTypeError,
     NodeRegistry,
     UnknownNodeTypeError,
 )
-from agentforge.schemas import NodeRole
+from agentforge.schemas import NodeEvent, NodeOutput, NodeRole
 from pydantic import BaseModel
 
 
@@ -16,6 +19,9 @@ class _NoopExecutor:
     type = "noop"
     role: NodeRole = "tool"
     config_model = _NoopConfig
+
+    async def execute(self, ctx: NodeContext[_NoopConfig]) -> AsyncIterator[NodeEvent]:
+        yield NodeOutput(value=None)
 
 
 def test_registered_executor_can_be_retrieved_by_type() -> None:

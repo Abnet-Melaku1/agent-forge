@@ -1,7 +1,9 @@
-from agentforge.engine.executor import NodeExecutor
-from pydantic import BaseModel
+from typing import Any
 
-AnyExecutor = NodeExecutor[BaseModel]
+from agentforge.engine.executor import NodeExecutor
+
+# Executors differ in their config type, so the registry is heterogeneous.
+AnyExecutor = NodeExecutor[Any]
 
 
 class RegistryError(Exception):
