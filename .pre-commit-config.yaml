@@ -12,7 +12,7 @@ repos:
     hooks:
       - id: mypy
         name: mypy (strict)
-        entry: uv run mypy libs
+        entry: uv run mypy libs services
         language: system
         types: [python]
         pass_filenames: false
