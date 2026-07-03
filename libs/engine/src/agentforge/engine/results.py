@@ -1,10 +1,7 @@
 from dataclasses import dataclass
-from typing import Literal
 
+from agentforge.schemas import NodeStatus, RunStatus
 from pydantic import JsonValue
-
-NodeStatus = Literal["succeeded", "failed", "skipped"]
-RunStatus = Literal["succeeded", "failed"]
 
 
 @dataclass(frozen=True)
