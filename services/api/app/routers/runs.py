@@ -1,8 +1,9 @@
+import json
 from typing import Any
 from uuid import UUID
 
 from agentforge.db import NodeExecution, Run, WorkflowVersion
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
 from sqlalchemy import select
 
@@ -57,3 +58,18 @@ async def get_run(run_id: UUID, session: SessionDep) -> RunDetailResponse:
         for row in result.scalars().all()
     ]
     return RunDetailResponse(id=run.id, status=run.status, nodes=nodes)
+
+
+@router.websocket("/runs/{run_id}/events")
+async def stream_run_events(websocket: WebSocket, run_id: UUID) -> None:
+    """Forward a run's live events from Redis to the client until the run finishes."""
+    event_source = websocket.app.state.event_source
+    await websocket.accept()
+    try:
+        async for message in event_source.subscribe(run_id):
+            await websocket.send_text(message)
+            if json.loads(message).get("kind") == "run_finished":
+                break
+    except WebSocketDisconnect:
+        return
+    await websocket.close()
