@@ -4,6 +4,7 @@ version = "0.0.0"
 description = "FastAPI gateway: workflows, runs, and the execution event stream."
 requires-python = ">=3.12"
 dependencies = [
+    "agentforge-db",
     "agentforge-engine",
     "agentforge-schemas",
     "fastapi>=0.115",
@@ -11,6 +12,7 @@ dependencies = [
 ]
 
 [tool.uv.sources]
+agentforge-db = { workspace = true }
 agentforge-engine = { workspace = true }
 agentforge-schemas = { workspace = true }
 
