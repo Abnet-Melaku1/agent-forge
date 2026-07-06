@@ -6,6 +6,7 @@ from agentforge.engine.registry import (
     DuplicateNodeTypeError,
     NodeRegistry,
     UnknownNodeTypeError,
+    build_default_registry,
 )
 from agentforge.schemas import NodeEvent, NodeOutput, NodeRole
 from pydantic import BaseModel
@@ -22,6 +23,12 @@ class _NoopExecutor:
 
     async def execute(self, ctx: NodeContext[_NoopConfig]) -> AsyncIterator[NodeEvent]:
         yield NodeOutput(value=None)
+
+
+def test_default_registry_includes_the_builtin_executors() -> None:
+    # The default registry ships with the built-in node executors registered.
+    registry = build_default_registry()
+    assert "constant" in registry
 
 
 def test_registered_executor_can_be_retrieved_by_type() -> None:

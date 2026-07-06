@@ -46,3 +46,12 @@ class NodeRegistry:
 
     def types(self) -> list[str]:
         return sorted(self._executors)
+
+
+def build_default_registry() -> NodeRegistry:
+    """Return a registry populated with the built-in node executors."""
+    from agentforge.engine.executors import ConstantExecutor
+
+    registry = NodeRegistry()
+    registry.register(ConstantExecutor())
+    return registry

@@ -1,0 +1,24 @@
+[project]
+name = "agentforge-worker"
+version = "0.0.0"
+description = "arq worker: executes runs, persists state, and publishes run events."
+requires-python = ">=3.12"
+dependencies = [
+    "agentforge-db",
+    "agentforge-engine",
+    "agentforge-schemas",
+    "arq>=0.26",
+    "redis>=5",
+]
+
+[tool.uv.sources]
+agentforge-db = { workspace = true }
+agentforge-engine = { workspace = true }
+agentforge-schemas = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["worker"]
