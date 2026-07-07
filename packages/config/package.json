@@ -1,0 +1,13 @@
+{
+  "name": "@agentforge/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tailwind-preset": "./tailwind-preset.ts",
+    "./tsconfig.base.json": "./tsconfig.base.json"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

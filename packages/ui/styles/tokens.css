@@ -1,0 +1,42 @@
+/**
+ * AgentForge design tokens (CLAUDE.md §11) — the "precision engineering bench".
+ * Warm-ink base, a single amber signal, role-colored node accents. Values sampled
+ * from the Figma source (wJDSbp1MTNpTuv7L63Y2Fv). Consumed via the Tailwind preset.
+ */
+:root {
+  /* Warm-ink surfaces */
+  --af-ink: #14110d;
+  --af-surface: #1d1a0d;
+  --af-surface-raised: #221b0c;
+  --af-topbar: #211a0e;
+  --af-line: #332c1c;
+  --af-line-strong: #4a4029;
+
+  /* Single amber signal */
+  --af-amber: #f2890d;
+  --af-amber-dim: #df7d0b;
+
+  /* Text */
+  --af-text: #f0e9dd;
+  --af-text-muted: #a49882;
+  --af-text-dim: #6b6350;
+
+  /* Status */
+  --af-ok: #7bbf6a;
+  --af-error: #e5564e;
+  --af-idle: #6b6350;
+
+  /* Node role accents */
+  --af-role-source: #8ad4cb;
+  --af-role-agent: #f2890d;
+  --af-role-tool: #e5c281;
+  --af-role-router: #d98a5c;
+  --af-role-output: #9aa8a0;
+
+  /* Canvas grid */
+  --af-grid-line: rgba(120, 104, 74, 0.09);
+
+  /* Type — `--font-*` are injected by next/font/google in app/layout.tsx */
+  --af-font-display: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  --af-font-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+}

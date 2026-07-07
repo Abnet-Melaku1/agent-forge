@@ -1,0 +1,33 @@
+@import "@agentforge/ui/styles/tokens.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-ink font-mono text-fg antialiased;
+    font-feature-settings: "ss01", "cv01";
+  }
+  /* Scrollbars styled to the bench, not the OS */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--af-line-strong);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  /* Letter-spaced uppercase heading treatment used across the bench */
+  .bench-heading {
+    @apply font-display uppercase tracking-[0.18em];
+  }
+}
