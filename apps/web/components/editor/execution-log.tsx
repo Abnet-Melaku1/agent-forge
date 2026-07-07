@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import type { NodeRole } from "@/lib/domain";
 import { flowNodes } from "@/lib/mock/graph";
 import { roleStyles } from "@/lib/roles";
+import { normalizeBar } from "@/lib/timeline";
 import { useRunStore } from "@/stores/run-store";
 
 const roleById = new Map<string, NodeRole>(flowNodes.map((n) => [n.id, n.data.role]));
@@ -83,7 +84,7 @@ export function ExecutionLog(): React.ReactElement {
               const [s, e] =
                 phase === "idle" || !bar
                   ? [start, end]
-                  : normalize(bar.start, bar.end, latencyMs || 1);
+                  : normalizeBar(bar.start, bar.end, latencyMs);
               const role = roleById.get(id);
               const barColor = role ? roleStyles[role].bg : "bg-muted";
               return (
@@ -103,9 +104,4 @@ export function ExecutionLog(): React.ReactElement {
       </div>
     </section>
   );
-}
-
-function normalize(start: number, end: number | null, total: number): [number, number] {
-  const e = end ?? total;
-  return [Math.min(start / total, 1), Math.min(e / total, 1)];
 }

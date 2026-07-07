@@ -1,6 +1,7 @@
 import { StatusLed, type LedTone } from "@agentforge/ui/status-led";
 import Link from "next/link";
 
+import { formatCostUsd, formatNodeCount } from "@/lib/format";
 import { workflows, type WorkflowState } from "@/lib/mock/workflows";
 
 const stateTone: Record<WorkflowState, LedTone> = {
@@ -9,10 +10,6 @@ const stateTone: Record<WorkflowState, LedTone> = {
   idle: "idle",
   error: "error",
 };
-
-function formatCost(usd: number): string {
-  return `$${usd >= 10 ? usd.toFixed(2) : usd.toFixed(3)}`;
-}
 
 const columns = ["Name (ID)", "Status", "Nodes", "Last Run", "Total Cost"] as const;
 
@@ -49,10 +46,12 @@ export function WorkflowTable(): React.ReactElement {
                 </span>
               </div>
               <span className="text-right font-mono text-sm text-fg">
-                {String(w.nodes).padStart(2, "0")}
+                {formatNodeCount(w.nodes)}
               </span>
               <span className="text-right font-mono text-xs text-muted">{w.lastRun}</span>
-              <span className="text-right font-mono text-sm text-amber">{formatCost(w.costUsd)}</span>
+              <span className="text-right font-mono text-sm text-amber">
+                {formatCostUsd(w.costUsd)}
+              </span>
             </Link>
           </li>
         ))}
