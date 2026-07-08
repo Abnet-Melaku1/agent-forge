@@ -51,21 +51,27 @@ export function TopBar({
 
 /** Nav links shown in the Library top bar. */
 export function TopNav({ active }: { active: string }): React.ReactElement {
-  const links = ["Workflows", "Observability", "Infrastructure"];
+  const links = [
+    { label: "Workflows", href: "/" },
+    { label: "Observability", href: "/observability" },
+    { label: "Infrastructure", href: "/infrastructure" },
+  ];
   return (
     <nav className="flex items-center gap-6">
       {links.map((l) => (
-        <button
-          key={l}
-          type="button"
+        <Link
+          key={l.label}
+          href={l.href}
           className={cn(
             "relative py-1 font-display text-sm transition-colors",
-            l === active ? "text-fg" : "text-muted hover:text-fg",
+            l.label === active ? "text-fg" : "text-muted hover:text-fg",
           )}
         >
-          {l}
-          {l === active && <span className="absolute -bottom-[18px] left-0 h-0.5 w-full bg-amber" />}
-        </button>
+          {l.label}
+          {l.label === active && (
+            <span className="absolute -bottom-[18px] left-0 h-0.5 w-full bg-amber" />
+          )}
+        </Link>
       ))}
     </nav>
   );

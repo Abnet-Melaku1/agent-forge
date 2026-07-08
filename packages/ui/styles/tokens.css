@@ -23,8 +23,17 @@
 
   /* Status */
   --af-ok: #7bbf6a;
+  --af-green: #23a13a;
   --af-error: #e5564e;
+  --af-warn: #ffb77a;
   --af-idle: #6b6350;
+
+  /* Management-chrome surfaces (wide sidebar + search) */
+  --af-surface-active: #3c3424;
+  --af-search: #433527;
+
+  /* Semantic teal — reuses the source-role mint for metrics/success readouts */
+  --af-teal: #8ad4cb;
 
   /* Node role accents */
   --af-role-source: #8ad4cb;

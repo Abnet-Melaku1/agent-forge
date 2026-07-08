@@ -13,6 +13,7 @@ import {
   Wrench,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import Link from "next/link";
 
 import type { NodeRole } from "@/lib/domain";
 
@@ -20,14 +21,15 @@ interface RailItem {
   role: NodeRole;
   icon: LucideIcon;
   label: string;
+  href: string;
 }
 
 const items: RailItem[] = [
-  { role: "source", icon: LogIn, label: "Sources" },
-  { role: "agent", icon: Bot, label: "Agents" },
-  { role: "tool", icon: Wrench, label: "Tools" },
-  { role: "router", icon: GitBranch, label: "Routers" },
-  { role: "output", icon: Share2, label: "Outputs" },
+  { role: "source", icon: LogIn, label: "Sources", href: "/sources" },
+  { role: "agent", icon: Bot, label: "Agents", href: "/editor" },
+  { role: "tool", icon: Wrench, label: "Tools", href: "/tools" },
+  { role: "router", icon: GitBranch, label: "Routers", href: "/routers" },
+  { role: "output", icon: Share2, label: "Outputs", href: "/outputs" },
 ];
 
 export function LeftRail({
@@ -48,12 +50,12 @@ export function LeftRail({
         </div>
       )}
       <ul className="flex flex-col items-stretch gap-1">
-        {items.map(({ role, icon: Icon, label }) => {
+        {items.map(({ role, icon: Icon, label, href }) => {
           const isActive = role === active;
           return (
             <li key={role}>
-              <button
-                type="button"
+              <Link
+                href={href}
                 title={label}
                 className={cn(
                   "group relative flex w-16 flex-col items-center gap-1 py-2.5 text-[10px] uppercase tracking-wider transition-colors",
@@ -63,7 +65,7 @@ export function LeftRail({
                 {isActive && <span className="absolute left-0 top-1 h-[calc(100%-8px)] w-0.5 bg-amber" />}
                 <Icon className="h-5 w-5" strokeWidth={1.5} />
                 <span className="font-mono">{label}</span>
-              </button>
+              </Link>
             </li>
           );
         })}

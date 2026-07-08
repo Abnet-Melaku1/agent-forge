@@ -16,15 +16,20 @@ const preset: Omit<Config, "content"> = {
         topbar: "var(--af-topbar)",
         line: "var(--af-line)",
         "line-strong": "var(--af-line-strong)",
+        "surface-active": "var(--af-surface-active)",
+        search: "var(--af-search)",
         // Single amber signal
         amber: "var(--af-amber)",
         "amber-dim": "var(--af-amber-dim)",
+        teal: "var(--af-teal)",
         // Text
         fg: "var(--af-text)",
         muted: "var(--af-text-muted)",
         dim: "var(--af-text-dim)",
         // Status
         ok: "var(--af-ok)",
+        green: "var(--af-green)",
+        warn: "var(--af-warn)",
         error: "var(--af-error)",
         idle: "var(--af-idle)",
         // Node role accents
