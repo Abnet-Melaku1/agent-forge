@@ -21,7 +21,7 @@ export default function InfrastructurePage(): React.ReactElement {
   return (
     <AppShell nav="Agents" topNav="Infrastructure" searchPlaceholder="Query Infra ...">
       {/* Metrics strip */}
-      <div className="mb-6 flex items-center gap-10 border-b border-line pb-4 font-mono text-xs">
+      <div className="mb-6 flex flex-wrap items-center gap-x-10 gap-y-3 border-b border-line pb-4 font-mono text-xs">
         <Metric label="Uptime" value={infraStats.uptime} tone="teal" />
         <div className="flex items-center gap-3">
           <span className="text-[10px] uppercase tracking-wide text-dim">Cluster Load:</span>
@@ -46,7 +46,7 @@ export default function InfrastructurePage(): React.ReactElement {
         }
       />
 
-      <div className="grid grid-cols-[2fr_1fr] gap-5">
+      <div className="grid gap-5 lg:grid-cols-[2fr_1fr]">
         {/* Compute cluster */}
         <BenchCard>
           <div className="flex items-start justify-between">
@@ -64,7 +64,7 @@ export default function InfrastructurePage(): React.ReactElement {
             </span>
           </div>
 
-          <div className="mt-6 grid grid-cols-3 gap-6">
+          <div className="mt-6 grid gap-6 sm:grid-cols-3">
             <ResourceMeter label="CPU Cores" value={cc.cpuCores} pct="68%" tone="amber" />
             <ResourceMeter label="VRAM Usage" value={cc.vramUsage} pct="89%" tone="error" />
             <div>
@@ -76,7 +76,7 @@ export default function InfrastructurePage(): React.ReactElement {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-4 gap-3">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {cc.nodes.map((n) => (
               <div key={n.id} className="border border-line p-3">
                 <p className="font-mono text-[10px] text-dim">{n.id}</p>
@@ -135,6 +135,8 @@ export default function InfrastructurePage(): React.ReactElement {
           </span>
         }
       >
+        <div className="overflow-x-auto">
+        <div className="min-w-[640px]">
         <div className="grid grid-cols-[2fr_1.6fr_1.2fr_1fr_0.4fr] border-b border-line pb-2 font-mono text-[10px] uppercase tracking-wide text-dim">
           <span>Deployment Name</span>
           <span>Runtime</span>
@@ -164,10 +166,12 @@ export default function InfrastructurePage(): React.ReactElement {
             <span className="text-right text-dim">⋮</span>
           </div>
         ))}
+        </div>
+        </div>
       </BenchCard>
 
       {/* Bottom panels */}
-      <div className="mt-5 grid grid-cols-2 gap-5">
+      <div className="mt-5 grid gap-5 md:grid-cols-2">
         <BenchCard label="Node Geolocation" className="relative">
           <div className="relative h-40 bg-ink">
             <span className="absolute left-[30%] top-[45%] h-2 w-2 rounded-full bg-amber shadow-[0_0_8px_2px_var(--af-amber)]" />

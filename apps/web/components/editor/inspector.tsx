@@ -37,14 +37,14 @@ export function Inspector(): React.ReactElement {
 
   if (!selectedId || !config) {
     return (
-      <aside className="flex w-[340px] shrink-0 items-center justify-center border-l border-line bg-topbar">
+      <aside className="hidden w-[340px] shrink-0 items-center justify-center border-l border-line bg-topbar xl:flex">
         <p className="font-mono text-xs uppercase tracking-wider text-dim">No node selected</p>
       </aside>
     );
   }
 
   return (
-    <aside className="flex w-[340px] shrink-0 flex-col border-l border-line bg-topbar">
+    <aside className="hidden w-[340px] shrink-0 flex-col border-l border-line bg-topbar xl:flex">
       <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
         <span className="font-mono text-xs uppercase tracking-wider text-muted">
           Inspector: <span className="text-fg">{titleById.get(selectedId)}</span>

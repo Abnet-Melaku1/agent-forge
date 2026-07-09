@@ -14,7 +14,7 @@ export function PageHeader({
   right?: ReactNode;
 }): React.ReactElement {
   return (
-    <header className="mb-6 flex items-start justify-between gap-6">
+    <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
       <div>
         {breadcrumb && (
           <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.14em] text-dim">
@@ -24,7 +24,7 @@ export function PageHeader({
         <h1 className="font-display text-2xl text-fg">{title}</h1>
         {subtitle && <p className="mt-1 max-w-xl text-sm text-muted">{subtitle}</p>}
       </div>
-      {right && <div className="flex shrink-0 items-center gap-6">{right}</div>}
+      {right && <div className="flex flex-wrap items-center gap-4 sm:gap-6">{right}</div>}
     </header>
   );
 }

@@ -15,7 +15,8 @@ const columns = ["Name (ID)", "Status", "Nodes", "Last Run", "Total Cost"] as co
 
 export function WorkflowTable(): React.ReactElement {
   return (
-    <section className="mt-6 border border-line bg-surface">
+    <section className="mt-6 overflow-x-auto border border-line bg-surface">
+      <div className="min-w-[720px]">
       <div className="grid grid-cols-[2.4fr_1.4fr_0.8fr_1.2fr_1fr] border-b border-line px-6 py-3">
         {columns.map((c, i) => (
           <span
@@ -56,6 +57,7 @@ export function WorkflowTable(): React.ReactElement {
           </li>
         ))}
       </ul>
+      </div>
     </section>
   );
 }

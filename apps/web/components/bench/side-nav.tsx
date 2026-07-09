@@ -5,13 +5,13 @@ import { Bot, Database, FileText, GitBranch, LogOut, TerminalSquare, Wrench } fr
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 
-interface NavItem {
+export interface NavItem {
   label: string;
   href: string;
   icon: LucideIcon;
 }
 
-const items: NavItem[] = [
+export const navItems: NavItem[] = [
   { label: "Sources", href: "/sources", icon: Database },
   { label: "Agents", href: "/editor", icon: Bot },
   { label: "Tools", href: "/tools", icon: Wrench },
@@ -19,7 +19,7 @@ const items: NavItem[] = [
   { label: "Outputs", href: "/outputs", icon: LogOut },
 ];
 
-const footer: NavItem[] = [
+export const navFooter: NavItem[] = [
   { label: "Terminal", href: "/editor", icon: TerminalSquare },
   { label: "Logs", href: "/observability", icon: FileText },
 ];
@@ -36,13 +36,13 @@ export function SideNav({ active }: { active: string }): React.ReactElement {
       </div>
 
       <nav className="flex flex-col gap-1 p-3">
-        {items.map((it) => (
+        {navItems.map((it) => (
           <NavLink key={it.label} item={it} active={it.label === active} />
         ))}
       </nav>
 
       <div className="mt-auto flex flex-col gap-1 border-t border-line p-3">
-        {footer.map((it) => (
+        {navFooter.map((it) => (
           <NavLink key={it.label} item={it} active={it.label === active} />
         ))}
       </div>

@@ -11,8 +11,8 @@ export default function OutputsPage(): React.ReactElement {
   return (
     <AppShell nav="Outputs" topNav="Workflows" searchPlaceholder="Search parameters...">
       {/* Summary strip */}
-      <div className="mb-6 flex items-center justify-between border border-line bg-surface px-6 py-4">
-        <div className="flex items-center gap-10">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border border-line bg-surface px-6 py-4">
+        <div className="flex flex-wrap items-center gap-x-10 gap-y-4">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-wider text-dim">Active Sinks</p>
             <div className="mt-1 flex items-center gap-3">
@@ -32,7 +32,7 @@ export default function OutputsPage(): React.ReactElement {
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
         <SinkCard id="SNK-001-JSON" title="Production_JSON" badge="LOCKED" icon={<Code2 className="h-5 w-5" />} throughput="82.4 KB/s" payload="4.2 MB">
           <pre className="overflow-x-auto bg-ink p-3 font-mono text-[11px] leading-relaxed text-teal">
             {jsonPreview}

@@ -1,8 +1,11 @@
 "use client";
 
 import { cn } from "@agentforge/ui/cn";
-import { CircleHelp, Search, Settings } from "lucide-react";
+import { CircleHelp, Search } from "lucide-react";
 import Link from "next/link";
+
+import { MobileNavTrigger } from "./mobile-nav";
+import { SettingsMenu } from "./settings-menu";
 
 const topLinks = [
   { label: "Workflows", href: "/" },
@@ -19,12 +22,16 @@ export function BenchTopBar({
   searchPlaceholder?: string;
 }): React.ReactElement {
   return (
-    <header className="flex h-16 shrink-0 items-center gap-8 border-b border-line bg-surface-raised pl-5 pr-4">
-      <Link href="/" className="font-display text-lg font-bold tracking-tight text-amber">
+    <header className="flex h-16 shrink-0 items-center gap-3 border-b border-line bg-surface-raised pl-3 pr-3 sm:gap-6 sm:pl-5 sm:pr-4 lg:gap-8">
+      <MobileNavTrigger />
+      <Link
+        href="/"
+        className="shrink-0 font-display text-lg font-bold tracking-tight text-amber"
+      >
         AgentForge
       </Link>
 
-      <nav className="flex items-center gap-6">
+      <nav className="hidden items-center gap-6 md:flex">
         {topLinks.map((l) => (
           <Link
             key={l.label}
@@ -42,8 +49,8 @@ export function BenchTopBar({
         ))}
       </nav>
 
-      <div className="ml-auto flex items-center gap-4">
-        <div className="relative w-72">
+      <div className="ml-auto flex min-w-0 items-center gap-2 sm:gap-4">
+        <div className="relative hidden w-40 sm:block lg:w-72">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-dim" />
           <input
             type="text"
@@ -51,12 +58,10 @@ export function BenchTopBar({
             className="h-9 w-full border border-line-strong bg-search pl-9 pr-3 font-mono text-xs text-fg placeholder:text-dim focus:border-amber focus:outline-none"
           />
         </div>
-        <button type="button" title="Settings" className="text-muted hover:text-fg">
-          <Settings className="h-[18px] w-[18px]" strokeWidth={1.5} />
-        </button>
-        <button type="button" title="Help" className="text-muted hover:text-fg">
+        <SettingsMenu />
+        <Link href="/observability" title="Help &amp; telemetry" className="text-muted hover:text-fg">
           <CircleHelp className="h-[18px] w-[18px]" strokeWidth={1.5} />
-        </button>
+        </Link>
       </div>
     </header>
   );

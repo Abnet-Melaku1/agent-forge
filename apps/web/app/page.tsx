@@ -15,11 +15,11 @@ export default function LibraryPage(): React.ReactElement {
       <TopBar center={<TopNav active="Workflows" />} />
       <div className="flex flex-1 overflow-hidden">
         <LeftRail active="agent" bench />
-        <main className="flex-1 overflow-y-auto px-10 py-8">
+        <main className="min-w-0 flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
           <div className="mx-auto max-w-[1200px]">
             <StatHero />
             <WorkflowTable />
-            <div className="mt-6 grid grid-cols-3 gap-5">
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               <NodeDistributionCard />
               <CostAccumulationCard />
               <QuickActionCard />

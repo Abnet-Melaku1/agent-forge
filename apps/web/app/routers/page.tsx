@@ -15,7 +15,7 @@ import {
 export default function RoutersPage(): React.ReactElement {
   return (
     <AppShell nav="Routers" topNav="Workflows" searchPlaceholder="Global Search ...">
-      <div className="mb-6 flex items-center justify-between border-b border-line pb-3 font-mono text-xs">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3 font-mono text-xs">
         <div className="flex items-center gap-4">
           <span className="text-muted">
             Cluster: <span className="text-fg">{routersStats.cluster}</span>
@@ -32,7 +32,7 @@ export default function RoutersPage(): React.ReactElement {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {/* LLM Router */}
         <RouterCard id={intentClassifier.id} name={intentClassifier.name} kind={intentClassifier.kind}>
           <p className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-wide text-dim">
@@ -119,7 +119,7 @@ export default function RoutersPage(): React.ReactElement {
         </RouterCard>
       </div>
 
-      <div className="mt-5 grid grid-cols-[2fr_1fr] gap-5">
+      <div className="mt-5 grid gap-5 lg:grid-cols-[2fr_1fr]">
         <BenchCard
           label="Routing_Topology_Flow"
           right={
@@ -200,7 +200,7 @@ function RouterCard({
 
 function TopologyDiagram(): React.ReactElement {
   return (
-    <div className="flex h-64 items-center justify-around bg-ink px-6 py-4">
+    <div className="flex h-64 items-center justify-around gap-4 overflow-x-auto bg-ink px-6 py-4">
       <DiagramNode title="INPUT" sub="Stream_A" />
       <Connector />
       <DiagramNode title="ROUTER" sub="Main_Lobby" accent />
@@ -226,7 +226,7 @@ function DiagramNode({
 }): React.ReactElement {
   return (
     <div
-      className={`w-28 border px-3 py-4 text-center font-mono ${
+      className={`w-28 shrink-0 border px-3 py-4 text-center font-mono ${
         accent ? "border-role-router" : "border-line-strong"
       } ${dim ? "opacity-50" : ""} bg-surface`}
     >
@@ -237,5 +237,5 @@ function DiagramNode({
 }
 
 function Connector(): React.ReactElement {
-  return <div className="h-px w-8 bg-line-strong" />;
+  return <div className="h-px w-8 shrink-0 bg-line-strong" />;
 }

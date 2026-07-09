@@ -27,7 +27,7 @@ export default function ToolsPage(): React.ReactElement {
         }
       />
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         {tools.map((t) => (
           <ToolTile key={t.name} tool={t} />
         ))}
@@ -110,7 +110,7 @@ function StatusStrip(): React.ReactElement {
         <StatusLed tone="active" pulse />
         SYSTEM_READY
       </span>
-      <div className="flex flex-1 gap-8 overflow-hidden text-dim">
+      <div className="hidden flex-1 gap-8 overflow-hidden text-dim md:flex">
         {toolsStats.ticker.map((t) => (
           <span key={t} className="whitespace-nowrap">
             [LOG] {t}

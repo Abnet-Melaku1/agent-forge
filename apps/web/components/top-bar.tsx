@@ -2,9 +2,11 @@
 
 import { Button } from "@agentforge/ui/button";
 import { cn } from "@agentforge/ui/cn";
-import { Activity, History, Play, Settings } from "lucide-react";
+import { Activity, History, Play } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
+
+import { SettingsMenu } from "@/components/bench/settings-menu";
 
 export function Wordmark(): React.ReactElement {
   return (
@@ -22,22 +24,20 @@ export function TopBar({
   onRun?: () => void;
 }): React.ReactElement {
   return (
-    <header className="flex h-14 shrink-0 items-center gap-6 border-b border-line bg-topbar pl-5 pr-4">
+    <header className="flex h-14 shrink-0 items-center gap-3 border-b border-line bg-topbar pl-3 pr-3 sm:gap-6 sm:pl-5 sm:pr-4">
       <Wordmark />
       {center}
-      <div className="ml-auto flex items-center gap-4">
-        <div className="flex items-center gap-3 text-muted">
-          <button type="button" title="History" className="hover:text-fg">
+      <div className="ml-auto flex items-center gap-2 sm:gap-4">
+        <div className="hidden items-center gap-3 text-muted sm:flex">
+          <Link href="/observability" title="Run history" className="hover:text-fg">
             <History className="h-[18px] w-[18px]" strokeWidth={1.5} />
-          </button>
-          <button type="button" title="Observability" className="hover:text-fg">
+          </Link>
+          <Link href="/infrastructure" title="Live activity" className="hover:text-fg">
             <Activity className="h-[18px] w-[18px]" strokeWidth={1.5} />
-          </button>
-          <button type="button" title="Settings" className="hover:text-fg">
-            <Settings className="h-[18px] w-[18px]" strokeWidth={1.5} />
-          </button>
+          </Link>
+          <SettingsMenu />
         </div>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="hidden sm:inline-flex">
           Deploy
         </Button>
         <Button variant="primary" size="sm" onClick={onRun}>
@@ -57,7 +57,7 @@ export function TopNav({ active }: { active: string }): React.ReactElement {
     { label: "Infrastructure", href: "/infrastructure" },
   ];
   return (
-    <nav className="flex items-center gap-6">
+    <nav className="hidden items-center gap-6 md:flex">
       {links.map((l) => (
         <Link
           key={l.label}
@@ -90,7 +90,7 @@ export function RunContext({
   latency: string;
 }): React.ReactElement {
   return (
-    <div className="flex items-center gap-4 font-mono text-xs">
+    <div className="hidden items-center gap-4 font-mono text-xs lg:flex">
       <span className="text-fg">{name}</span>
       <span className="text-dim">|</span>
       <Metric label="TOKENS" value={tokens} />

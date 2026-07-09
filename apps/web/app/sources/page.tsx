@@ -35,7 +35,8 @@ export default function SourcesPage(): React.ReactElement {
         }
       />
 
-      <div className="border border-line bg-surface">
+      <div className="overflow-x-auto border border-line bg-surface">
+        <div className="min-w-[860px]">
         <div className="grid grid-cols-[1fr_3fr_1.4fr_1.6fr_1.6fr_1fr] border-b border-line px-6 py-3">
           {columns.map((c, i) => (
             <span
@@ -90,9 +91,10 @@ export default function SourcesPage(): React.ReactElement {
             );
           })}
         </ul>
+        </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-3 gap-5">
+      <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
         <BenchCard label="Storage Utilization">
           <Meter value={sourcesStats.storageUtilizationPct} />
           <div className="mt-3 flex justify-between font-mono text-xs">

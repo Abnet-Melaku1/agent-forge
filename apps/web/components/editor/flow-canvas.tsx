@@ -17,6 +17,7 @@ import { useCallback, useMemo } from "react";
 import { NodeCard } from "@/components/editor/node-card";
 import { flowEdges, flowNodes, type AfNodeData } from "@/lib/mock/graph";
 import { useCanvasStore } from "@/stores/canvas-store";
+import { useUiStore } from "@/stores/ui-store";
 
 const initialNodes: Node<AfNodeData>[] = flowNodes.map((n) => ({
   id: n.id,
@@ -38,6 +39,7 @@ function Canvas(): React.ReactElement {
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, , onEdgesChange] = useEdgesState(initialEdges);
   const select = useCanvasStore((s) => s.select);
+  const showGrid = useUiStore((s) => s.showGrid);
 
   const onNodeClick = useCallback<NodeMouseHandler>((_, node) => select(node.id), [select]);
 
@@ -55,7 +57,7 @@ function Canvas(): React.ReactElement {
       proOptions={{ hideAttribution: true }}
       defaultEdgeOptions={{ type: "default", style: { stroke: "var(--af-line-strong)", strokeWidth: 1.5 } }}
     >
-      <Background variant={BackgroundVariant.Lines} gap={32} color="var(--af-grid-line)" />
+      {showGrid && <Background variant={BackgroundVariant.Lines} gap={32} color="var(--af-grid-line)" />}
     </ReactFlow>
   );
 }

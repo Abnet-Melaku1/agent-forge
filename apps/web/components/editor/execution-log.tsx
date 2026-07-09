@@ -2,8 +2,8 @@
 
 import { StatusLed } from "@agentforge/ui/status-led";
 import { PanelLabel } from "@agentforge/ui/panel";
-import { Minimize2 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { Maximize2, Minimize2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 import type { NodeRole } from "@/lib/domain";
 import { flowNodes } from "@/lib/mock/graph";
@@ -36,11 +36,16 @@ export function ExecutionLog(): React.ReactElement {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
   }, [log]);
 
+  const [expanded, setExpanded] = useState(false);
   const running = phase === "running";
   const runtime = latencyMs > 0 ? `${(latencyMs / 1000).toFixed(1)}s` : "1.2s";
 
   return (
-    <section className="flex h-[280px] shrink-0 flex-col border-t border-line bg-surface">
+    <section
+      className={`flex shrink-0 flex-col border-t border-line bg-surface transition-[height] duration-300 ease-out ${
+        expanded ? "h-[65vh]" : "h-[280px]"
+      }`}
+    >
       <div className="flex items-center justify-between border-b border-line px-5 py-2.5">
         <div className="flex items-center gap-3">
           <PanelLabel className="text-muted">Execution_Log</PanelLabel>
@@ -55,7 +60,20 @@ export function ExecutionLog(): React.ReactElement {
           <span>
             TOTAL_RUNTIME: <span className="text-fg">{runtime}</span>
           </span>
-          <Minimize2 className="h-3.5 w-3.5 text-dim" />
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            title={expanded ? "Collapse log" : "Expand log"}
+            aria-label={expanded ? "Collapse log" : "Expand log"}
+            aria-pressed={expanded}
+            className="text-dim transition-colors hover:text-amber"
+          >
+            {expanded ? (
+              <Minimize2 className="h-3.5 w-3.5" />
+            ) : (
+              <Maximize2 className="h-3.5 w-3.5" />
+            )}
+          </button>
         </div>
       </div>
 

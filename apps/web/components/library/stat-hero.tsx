@@ -3,9 +3,9 @@ import { libraryStats } from "@/lib/mock/workflows";
 export function StatHero(): React.ReactElement {
   const { activeWorkflows, latestSync, throughput, latencyP95 } = libraryStats;
   return (
-    <section className="flex items-start justify-between border-b border-line pb-6">
+    <section className="flex flex-wrap items-start justify-between gap-x-6 gap-y-4 border-b border-line pb-6">
       <div className="flex items-end gap-6">
-        <span className="font-display text-[92px] font-bold leading-[0.8] text-amber">
+        <span className="font-display text-6xl font-bold leading-[0.8] text-amber sm:text-[92px]">
           {activeWorkflows}
         </span>
         <div className="pb-2">

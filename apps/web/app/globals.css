@@ -8,6 +8,14 @@
   html {
     color-scheme: dark;
   }
+  /* Reduced-motion preference from bench settings — near-instant transitions/animations. */
+  html[data-reduce-motion="true"] *,
+  html[data-reduce-motion="true"] *::before,
+  html[data-reduce-motion="true"] *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
   body {
     @apply bg-ink font-mono text-fg antialiased;
     font-feature-settings: "ss01", "cv01";

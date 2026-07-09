@@ -11,7 +11,7 @@ export default function ObservabilityPage(): React.ReactElement {
   return (
     <AppShell nav="Logs" topNav="Observability" searchPlaceholder="Global Trace Search">
       {/* Telemetry strip */}
-      <div className="mb-6 flex items-center gap-10 border-b border-line pb-4">
+      <div className="mb-6 flex flex-wrap items-center gap-x-10 gap-y-4 border-b border-line pb-4">
         <div>
           <p className="font-mono text-[10px] uppercase tracking-wider text-dim">Active Threads</p>
           <p className="mt-1 font-mono text-lg">
@@ -38,7 +38,7 @@ export default function ObservabilityPage(): React.ReactElement {
         </span>
       </div>
 
-      <div className="grid grid-cols-[2.4fr_1fr] gap-5">
+      <div className="grid gap-5 lg:grid-cols-[2.4fr_1fr]">
         <BenchCard
           label="↗ Latency Aggregate (P99)"
           right={
@@ -93,11 +93,11 @@ export default function ObservabilityPage(): React.ReactElement {
         className="mt-5"
         right={<LineChartIcon className="h-4 w-4 text-dim" />}
       >
-        <div className="flex h-48 items-center justify-center gap-16 bg-ink">
+        <div className="flex h-48 items-center justify-center gap-8 overflow-x-auto bg-ink sm:gap-16">
           {[LogIn, Bot, GitBranch, LogOut, Share2].slice(0, 4).map((Icon, i) => (
             <span
               key={i}
-              className={`flex h-14 w-14 items-center justify-center border ${
+              className={`flex h-14 w-14 shrink-0 items-center justify-center border ${
                 i === 0 ? "border-amber text-amber" : "border-line-strong text-muted"
               } bg-surface`}
             >
