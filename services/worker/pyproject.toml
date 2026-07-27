@@ -7,6 +7,7 @@ dependencies = [
     "agentforge-db",
     "agentforge-engine",
     "agentforge-schemas",
+    "agentforge-providers",
     "arq>=0.26",
     "redis>=5",
 ]
@@ -15,6 +16,7 @@ dependencies = [
 agentforge-db = { workspace = true }
 agentforge-engine = { workspace = true }
 agentforge-schemas = { workspace = true }
+agentforge-providers = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

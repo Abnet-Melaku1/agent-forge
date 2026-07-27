@@ -122,6 +122,35 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /**
+         * AgentConfig
+         * @description Config for an `agent` node: executes an LLM prompt/query.
+         */
+        AgentConfig: {
+            /**
+             * Provider
+             * @enum {string}
+             */
+            provider: "openai" | "anthropic";
+            /** Model */
+            model: string;
+            /** System Prompt */
+            system_prompt?: string | null;
+            /**
+             * Temperature
+             * @default 0.7
+             */
+            temperature: number;
+            /** Max Tokens */
+            max_tokens?: number | null;
+        };
+        /**
+         * ConstantConfig
+         * @description Config for a `constant` source node: emits a fixed value.
+         */
+        ConstantConfig: {
+            value: components["schemas"]["JsonValue"];
+        };
         /** CreateWorkflowRequest */
         CreateWorkflowRequest: {
             /** Name */
@@ -160,7 +189,7 @@ export interface components {
              */
             role: "source" | "agent" | "tool" | "router" | "output";
             /** Config */
-            config?: {
+            config?: components["schemas"]["ConstantConfig"] | components["schemas"]["AgentConfig"] | components["schemas"]["ToolConfig"] | components["schemas"]["RouterConfig"] | {
                 [key: string]: components["schemas"]["JsonValue"];
             };
         };
@@ -185,6 +214,20 @@ export interface components {
             /** Order */
             order: string[];
         };
+        /**
+         * RouterConfig
+         * @description Config for a `router` node: routes control flow to specific branch(es).
+         */
+        RouterConfig: {
+            /** Expression */
+            expression: string;
+            /** Routes */
+            routes: {
+                [key: string]: string;
+            };
+            /** Default Route */
+            default_route?: string | null;
+        };
         /** RunDetailResponse */
         RunDetailResponse: {
             /**
@@ -206,6 +249,35 @@ export interface components {
             id: string;
             /** Status */
             status: string;
+        };
+        /**
+         * ToolConfig
+         * @description Config for a `tool` node: executes an HTTP call, search, or sandboxed code.
+         */
+        ToolConfig: {
+            /**
+             * Tool Type
+             * @enum {string}
+             */
+            tool_type: "search" | "http" | "code";
+            /** Search Query Template */
+            search_query_template?: string | null;
+            /** Http Url */
+            http_url?: string | null;
+            /**
+             * Http Method
+             * @default GET
+             * @enum {string}
+             */
+            http_method: "GET" | "POST" | "PUT" | "DELETE";
+            /** Http Headers */
+            http_headers?: {
+                [key: string]: string;
+            } | null;
+            /** Http Body Template */
+            http_body_template?: string | null;
+            /** Code Source */
+            code_source?: string | null;
         };
         /** ValidateResponse */
         ValidateResponse: {

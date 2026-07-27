@@ -15,6 +15,9 @@ class NodeOutput(BaseModel):
 
     kind: Literal["output"] = "output"
     value: JsonValue
+    tokens_in: int = 0
+    tokens_out: int = 0
+    cost_cents: int = 0
 
 
 NodeEvent = TokenChunk | NodeOutput

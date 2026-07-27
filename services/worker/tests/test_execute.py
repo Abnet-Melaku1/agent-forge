@@ -143,3 +143,56 @@ async def test_execute_run_records_failure_and_skips_downstream() -> None:
         assert rows["a"].status == "failed"
         assert rows["a"].error is not None
         assert rows["b"].status == "skipped"
+
+
+async def test_execute_run_persists_observability_metrics() -> None:
+    from unittest.mock import patch
+
+    from agentforge.engine.executors import AgentExecutor
+
+    # A graph with an agent node
+    graph = Graph(
+        nodes=[
+            Node(
+                id="agent1",
+                type="agent",
+                role="agent",
+                config={"provider": "openai", "model": "gpt-4o", "temperature": 0.7},
+            ),
+        ],
+        edges=[],
+    )
+
+    factory, run_id = await _seed_run(graph)
+    registry = NodeRegistry()
+    registry.register(AgentExecutor())
+    publisher = _FakePublisher()
+
+    mock_chunks = ["Hello", " world", "!"]
+
+    async def mock_stream(*args, **kwargs):  # type: ignore[no-untyped-def]
+        for chunk in mock_chunks:
+            yield chunk
+
+    with patch("agentforge.engine.executors.OpenAIProvider") as mock_provider_class:
+        mock_provider = mock_provider_class.return_value
+        mock_provider.stream_response = mock_stream
+
+        await execute_run(run_id, factory, registry, publisher)
+
+    async with factory() as session:
+        run = await session.get(Run, run_id)
+        assert run is not None
+        assert run.status == "succeeded"
+        assert run.tokens_in == 3
+        assert run.tokens_out == 3
+        assert run.cost_cents == 1
+        assert run.latency_ms >= 0
+
+        rows = (await session.execute(select(NodeExecution))).scalars().all()
+        by_id = {row.node_id: row for row in rows}
+        assert by_id["agent1"].status == "succeeded"
+        assert by_id["agent1"].tokens_in == 3
+        assert by_id["agent1"].tokens_out == 3
+        assert by_id["agent1"].cost_cents == 1
+        assert by_id["agent1"].latency_ms >= 0

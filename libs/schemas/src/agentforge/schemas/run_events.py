@@ -11,6 +11,7 @@ class RunStarted(BaseModel):
 class NodeStarted(BaseModel):
     kind: Literal["node_started"] = "node_started"
     node_id: str
+    attempt: int = 1
 
 
 class NodeToken(BaseModel):
@@ -25,6 +26,11 @@ class NodeFinished(BaseModel):
     status: NodeStatus
     output: JsonValue = None
     error: str | None = None
+    attempt: int = 1
+    tokens_in: int = 0
+    tokens_out: int = 0
+    cost_cents: int = 0
+    latency_ms: int = 0
 
 
 class RunFinished(BaseModel):

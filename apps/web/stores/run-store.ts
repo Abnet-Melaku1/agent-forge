@@ -92,17 +92,73 @@ export const useRunStore = create<RunState>((set, get) => ({
 
     appendLog("Compiling canvas DAG...");
 
-    // Map frontend nodes to backend Graph format using the constant type
+    function mapModelToProvider(modelId: string): { provider: "openai" | "anthropic"; model: string } {
+      if (modelId.startsWith("claude") || modelId.includes("sonnet") || modelId.includes("opus")) {
+        let realModel = modelId;
+        if (modelId === "claude-sonnet-5") realModel = "claude-3-5-sonnet-20240620";
+        if (modelId === "claude-opus-4-8") realModel = "claude-3-opus-20240229";
+        return { provider: "anthropic", model: realModel };
+      } else {
+        let realModel = modelId;
+        if (modelId === "gpt-4o") realModel = "gpt-4o";
+        if (modelId === "gpt-4o-mini") realModel = "gpt-4o-mini";
+        if (modelId === "google" || modelId === "n/a") realModel = "gpt-4o-mini";
+        return { provider: "openai", model: realModel };
+      }
+    }
+
+    // Map frontend nodes to backend Graph format
     const backendNodes = flowNodes.map((n) => {
-      const configVal = inspectorConfigs[n.id]?.systemPrompt || n.data.title;
-      return {
-        id: n.id,
-        type: "constant",
-        role: n.data.role,
-        config: {
-          value: configVal,
-        },
-      };
+      const mockConfig = inspectorConfigs[n.id];
+      if (n.data.role === "agent") {
+        const { provider, model } = mapModelToProvider(mockConfig?.modelId || "gpt-4o-mini");
+        return {
+          id: n.id,
+          type: "agent",
+          role: n.data.role,
+          config: {
+            provider,
+            model,
+            system_prompt: mockConfig?.systemPrompt || "",
+            temperature: mockConfig?.temperature ?? 0.7,
+            max_tokens: 1024,
+          },
+        };
+      } else if (n.data.role === "tool") {
+        return {
+          id: n.id,
+          type: "tool",
+          role: n.data.role,
+          config: {
+            tool_type: "search",
+            search_query_template: "{PLANNER_LM}",
+          },
+        };
+      } else if (n.data.role === "router") {
+        return {
+          id: n.id,
+          type: "router",
+          role: n.data.role,
+          config: {
+            expression: mockConfig?.systemPrompt || "inputs.get('CRITIC_LM') == 'pass'",
+            routes: {
+              "True": "succeeded",
+              "False": "failed"
+            },
+            default_route: "failed"
+          },
+        };
+      } else {
+        const configVal = mockConfig?.systemPrompt || n.data.title;
+        return {
+          id: n.id,
+          type: "constant",
+          role: n.data.role,
+          config: {
+            value: configVal,
+          },
+        };
+      }
     });
 
     const backendEdges = flowEdges.map((e) => ({

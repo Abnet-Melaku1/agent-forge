@@ -50,8 +50,16 @@ class NodeRegistry:
 
 def build_default_registry() -> NodeRegistry:
     """Return a registry populated with the built-in node executors."""
-    from agentforge.engine.executors import ConstantExecutor
+    from agentforge.engine.executors import (
+        AgentExecutor,
+        ConstantExecutor,
+        RouterExecutor,
+        ToolExecutor,
+    )
 
     registry = NodeRegistry()
     registry.register(ConstantExecutor())
+    registry.register(AgentExecutor())
+    registry.register(ToolExecutor())
+    registry.register(RouterExecutor())
     return registry

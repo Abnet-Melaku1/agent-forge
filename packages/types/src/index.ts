@@ -15,6 +15,11 @@ export type Graph = components["schemas"]["Graph"];
 export type RunStatus = "queued" | "running" | "succeeded" | "failed" | "cancelled";
 export type NodeStatus = "queued" | "running" | "succeeded" | "failed" | "skipped";
 
+export type ConstantConfig = components["schemas"]["ConstantConfig"];
+export type AgentConfig = components["schemas"]["AgentConfig"];
+export type ToolConfig = components["schemas"]["ToolConfig"];
+export type RouterConfig = components["schemas"]["RouterConfig"];
+
 export interface RunTotals {
   tokens: number;
   costCents: number;

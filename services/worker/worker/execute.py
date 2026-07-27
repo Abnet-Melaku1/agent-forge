@@ -13,7 +13,7 @@ from agentforge.schemas import (
     RunFinished,
     RunStarted,
 )
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 
@@ -53,13 +53,17 @@ async def _apply(session: AsyncSession, run: Run, event: RunEvent) -> None:
         run.status = "running"
         run.started_at = datetime.now(UTC)
     elif isinstance(event, NodeStarted):
-        session.add(NodeExecution(run_id=run.id, node_id=event.node_id, status="running"))
+        session.add(
+            NodeExecution(
+                run_id=run.id, node_id=event.node_id, status="running", attempt=event.attempt
+            )
+        )
     elif isinstance(event, NodeFinished):
         execution = await session.scalar(
             select(NodeExecution).where(
                 NodeExecution.run_id == run.id,
                 NodeExecution.node_id == event.node_id,
-                NodeExecution.attempt == 1,
+                NodeExecution.attempt == event.attempt,
             )
         )
         if execution is None:
@@ -71,13 +75,40 @@ async def _apply(session: AsyncSession, run: Run, event: RunEvent) -> None:
                     status=event.status,
                     output=event.output,
                     error=event.error,
+                    attempt=event.attempt,
+                    tokens_in=event.tokens_in,
+                    tokens_out=event.tokens_out,
+                    cost_cents=event.cost_cents,
+                    latency_ms=event.latency_ms,
                 )
             )
         else:
             execution.status = event.status
             execution.output = event.output
             execution.error = event.error
+            execution.tokens_in = event.tokens_in
+            execution.tokens_out = event.tokens_out
+            execution.cost_cents = event.cost_cents
+            execution.latency_ms = event.latency_ms
     elif isinstance(event, RunFinished):
         run.status = event.status
         run.finished_at = datetime.now(UTC)
+
+        # Accumulate metrics from all NodeExecution rows for this run
+        result = await session.execute(
+            select(
+                func.sum(NodeExecution.tokens_in),
+                func.sum(NodeExecution.tokens_out),
+                func.sum(NodeExecution.cost_cents),
+            ).where(NodeExecution.run_id == run.id)
+        )
+        row = result.fetchone()
+        if row:
+            run.tokens_in = row[0] or 0
+            run.tokens_out = row[1] or 0
+            run.cost_cents = row[2] or 0
+
+        if run.started_at:
+            delta = run.finished_at - run.started_at
+            run.latency_ms = int(delta.total_seconds() * 1000)
     # NodeToken is an ephemeral streaming delta — nothing to persist.

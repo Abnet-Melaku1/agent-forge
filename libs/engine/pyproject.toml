@@ -3,10 +3,14 @@ name = "agentforge-engine"
 version = "0.0.0"
 description = "DAG compile + schedule + node registry (pure, framework-agnostic)."
 requires-python = ">=3.12"
-dependencies = ["agentforge-schemas"]
+dependencies = [
+    "agentforge-schemas",
+    "agentforge-providers",
+]
 
 [tool.uv.sources]
 agentforge-schemas = { workspace = true }
+agentforge-providers = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]
