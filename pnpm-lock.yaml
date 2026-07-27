@@ -26,6 +26,9 @@ importers:
       '@agentforge/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@agentforge/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@agentforge/ui':
         specifier: workspace:*
         version: link:../../packages/ui

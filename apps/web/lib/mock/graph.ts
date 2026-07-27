@@ -1,4 +1,4 @@
-import type { NodeRole } from "@/lib/domain";
+import type { NodeRole } from "@agentforge/types";
 
 /** Data carried on each React Flow node card. */
 export interface AfNodeData {

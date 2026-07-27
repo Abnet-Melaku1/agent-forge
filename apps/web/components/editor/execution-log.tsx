@@ -5,7 +5,7 @@ import { PanelLabel } from "@agentforge/ui/panel";
 import { Maximize2, Minimize2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import type { NodeRole } from "@/lib/domain";
+import type { NodeRole } from "@agentforge/types";
 import { flowNodes } from "@/lib/mock/graph";
 import { roleStyles } from "@/lib/roles";
 import { normalizeBar } from "@/lib/timeline";

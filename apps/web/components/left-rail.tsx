@@ -15,7 +15,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 
-import type { NodeRole } from "@/lib/domain";
+import type { NodeRole } from "@agentforge/types";
 
 interface RailItem {
   role: NodeRole;

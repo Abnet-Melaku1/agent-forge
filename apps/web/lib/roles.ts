@@ -1,4 +1,4 @@
-import type { NodeRole } from "./domain";
+import type { NodeRole } from "@agentforge/types";
 
 /**
  * Per-role presentation. Full literal class strings (not interpolated) so Tailwind's

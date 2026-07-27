@@ -1,4 +1,4 @@
-import type { RunEvent } from "@/lib/domain";
+import type { RunEvent } from "@agentforge/types";
 
 /** One entry in the terminal execution log. `node` is a node id or "SYSTEM". */
 export interface LogLine {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { NodeRole } from "@/lib/domain";
+import type { NodeRole } from "@agentforge/types";
 import { roleStyles } from "@/lib/roles";
 
 const ALL_ROLES: NodeRole[] = ["source", "agent", "tool", "router", "output"];

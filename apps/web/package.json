@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@agentforge/config": "workspace:*",
+    "@agentforge/types": "workspace:*",
     "@agentforge/ui": "workspace:*",
     "@xyflow/react": "^12.4.2",
     "lucide-react": "^0.469.0",
